@@ -1017,7 +1017,7 @@ function NopHoSoBoSung({ token, userInfo }) {
               <Col span={8}>
                 <Form.Item name="HoaDonLePhi" label=" " valuePropName="file" >
                   <Upload {...propsUploadLePhi}>
-                    <Button icon={<UploadOutlined />}>Hóa đơn nộp lệ phí/Ủy nhiệm chi</Button>
+                    <Button icon={<UploadOutlined />}>Hóa đơn nộp lệ phí</Button>
                   </Upload>
                 </Form.Item>
               </Col>

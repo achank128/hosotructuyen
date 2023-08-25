@@ -43,8 +43,6 @@ import { listGoiYHoSo } from "../../data/goiyhoso";
 import moment from "moment";
 import Login from "../Login";
 import { ButtonGoiYLePhi } from "../../utils/components";
-import TaiLieuItem from "./components/TaiLieuItem";
-import TaiLieuDynamicItem from "./components/TaiLieuDynamicItem";
 
 const { Title, Text, Paragraph } = Typography;
 const { Option } = Select;
@@ -61,7 +59,6 @@ function NopHoSo({ token, userInfo }) {
   const [isDone, setIsDone] = useState(false);
   const [showLanBoSung, setShowLanBoSung] = useState(false);
   const [loaiDeTai, setLoaiDeTai] = useState("Thử nghiệm lâm sàng");
-  const [loaiHoSo, setLoaiHoSo] = useState("Nộp ban đầu");
   const [filesLePhi, setFilesLePhi] = useState([]);
   const [filesLePhiView, setFilesLePhiView] = useState([]);
 
@@ -71,7 +68,6 @@ function NopHoSo({ token, userInfo }) {
 
   const [lanBoSungRules, setLanBoSungRules] = useState([{ required: false }]);
   function handleLoaiHoSo(value) {
-    setLoaiHoSo(value);
     setShowLanBoSung(value === "Nộp bổ sung");
     setLanBoSungRules(value === "Nộp bổ sung"
       ? [{ required: true, message: 'Thông tin bắt buộc', }]
@@ -312,7 +308,6 @@ function NopHoSo({ token, userInfo }) {
           FileKetQua: "",
           LinkHop: "",
           GioHop: "",
-          ParentId: ""
         };
         fd.append("hoSo", JSON.stringify(hoSo));
         //Files
@@ -603,15 +598,7 @@ function NopHoSo({ token, userInfo }) {
   //};
 
   // Bảng tài liệu trình nộp
-  function TaiLieuTable({ phanLoaiDeTai, phanLoaiHoSo }) {
-    let IsRequired = true;
-    if(phanLoaiHoSo === "Nộp bổ sung" 
-    || phanLoaiDeTai === "Nghiên cứu quan sát" 
-    || phanLoaiDeTai === "Khác"){
-      IsRequired = false;
-    }else{
-      IsRequired = true;
-    }
+  function TaiLieuTable({ phanLoaiDeTai }) {
     let rowIndex = 0;
     let tableData = listLoaiDinhKem
       .filter((ldk) => ldk.phanLoaiDeTai === phanLoaiDeTai)
@@ -660,7 +647,7 @@ function NopHoSo({ token, userInfo }) {
         width: "75%",
         render: (value) =>
           <>
-            <TaiLieuStaticFormList loaiTaiLieu={value} IsRequired={IsRequired}/>
+            <TaiLieuStaticFormList loaiTaiLieu={value}/>
             <TaiLieuDynamicFormList loaiTaiLieu={value} />
           </>
       }
@@ -685,7 +672,7 @@ function NopHoSo({ token, userInfo }) {
     return e && e.fileList;
   };
   // Form List file đính kèm (cố định)
-  function TaiLieuStaticFormList({ loaiTaiLieu, IsRequired }) {
+  function TaiLieuStaticFormList({ loaiTaiLieu }) {
     const propsUploadTaiLieu = {
       name: "file",
       multiple: false,
@@ -713,75 +700,66 @@ function NopHoSo({ token, userInfo }) {
         {(fields, { add, remove }) => (
           <>
             {fields.map(({ key, name, fieldKey, ...restField }) => (
-              <TaiLieuItem 
-              key={key} 
-              name={name} 
-              fieldKey={fieldKey} 
-              restField={restField} 
-              IsRequired={IsRequired} 
-              loaiTaiLieu={loaiTaiLieu} 
-              propsUploadTaiLieu={propsUploadTaiLieu}
-              />
-              // <Row key={key} align="top">
-              //   <Col span={1} style={{ textAlign: "center" }}>
-              //     <Tooltip placement="top" title="Tài liệu bắt buộc">
-              //       <Typography.Text type="secondary">
-              //         <StarFilled style={{ verticalAlign: "bottom", verticalAlign: "-webkit-baseline-middle" }} />
-              //       </Typography.Text>
-              //     </Tooltip>
-              //   </Col>
-              //   <Col span={8} style={{ paddingRight: 4 }}>
-              //     <Form.Item
-              //       {...restField}
-              //       name={[name, "DocNameVN"]}
-              //       fieldKey={[fieldKey, "DocNameVN"]}
-              //       rules={[{ required: true, message: "Thông tin bắt buộc" }]}
-              //       hasFeedback
-              //       style={{ marginBottom: 4 }}
-              //     >
-              //       <Input placeholder="Tên tài liệu" />
-              //     </Form.Item>
-              //   </Col>
-              //   <Col span={8} style={{ paddingRight: 4 }}>
-              //     <Form.Item
-              //       {...restField}
-              //       name={[name, "VersionAndDate"]}
-              //       fieldKey={[fieldKey, "VersionAndDate"]}
-              //       rules={[{ required: true, message: "Thông tin bắt buộc" }]}
-              //       hasFeedback
-              //       style={{ marginBottom: 4 }}
-              //     >
-              //       <Input placeholder="Phiên bản/ngày" />
-              //     </Form.Item>
-              //   </Col>
-              //   <Col span={7}>
-              //     <Form.Item
-              //       {...restField}
-              //       name={[name, "FileData"]}
-              //       fieldKey={[fieldKey, "FileData"]}
-              //       rules={[{ required: true, message: "Hãy đính kèm file" }]}
-              //       hasFeedback
-              //       style={{ marginBottom: 4 }}
-              //       valuePropName="fileList"
-              //       getValueFromEvent={normFile}
-              //     >
-              //       <Upload {...propsUploadTaiLieu} accept=".pdf" maxCount={1} className="upload-trinh-nop">
-              //         <Button icon={<UploadOutlined />}>Tải lên</Button>
-              //       </Upload>
-              //     </Form.Item>
-              //   </Col>
-              //   <Col span={0}>
-              //     <Form.Item
-              //       {...restField}
-              //       name={[name, "Category"]}
-              //       fieldKey={[fieldKey, "Category"]}
-              //       initialValue={loaiTaiLieu}
-              //       style={{ marginBottom: 4 }}
-              //     >
-              //       <Input type="hidden" />
-              //     </Form.Item>
-              //   </Col>
-              // </Row>
+              <Row key={key} align="top">
+                <Col span={1} style={{ textAlign: "center" }}>
+                  <Tooltip placement="top" title="Tài liệu bắt buộc">
+                    <Typography.Text type="secondary">
+                      <StarFilled style={{ verticalAlign: "bottom", verticalAlign: "-webkit-baseline-middle" }} />
+                    </Typography.Text>
+                  </Tooltip>
+                </Col>
+                <Col span={8} style={{ paddingRight: 4 }}>
+                  <Form.Item
+                    {...restField}
+                    name={[name, "DocNameVN"]}
+                    fieldKey={[fieldKey, "DocNameVN"]}
+                    rules={[{ required: true, message: "Thông tin bắt buộc" }]}
+                    hasFeedback
+                    style={{ marginBottom: 4 }}
+                  >
+                    <Input placeholder="Tên tài liệu" />
+                  </Form.Item>
+                </Col>
+                <Col span={8} style={{ paddingRight: 4 }}>
+                  <Form.Item
+                    {...restField}
+                    name={[name, "VersionAndDate"]}
+                    fieldKey={[fieldKey, "VersionAndDate"]}
+                    rules={[{ required: true, message: "Thông tin bắt buộc" }]}
+                    hasFeedback
+                    style={{ marginBottom: 4 }}
+                  >
+                    <Input placeholder="Phiên bản/ngày" />
+                  </Form.Item>
+                </Col>
+                <Col span={7}>
+                  <Form.Item
+                    {...restField}
+                    name={[name, "FileData"]}
+                    fieldKey={[fieldKey, "FileData"]}
+                    rules={[{ required: true, message: "Hãy đính kèm file" }]}
+                    hasFeedback
+                    style={{ marginBottom: 4 }}
+                    valuePropName="fileList"
+                    getValueFromEvent={normFile}
+                  >
+                    <Upload {...propsUploadTaiLieu} accept=".pdf" maxCount={1} className="upload-trinh-nop">
+                      <Button icon={<UploadOutlined />}>Tải lên</Button>
+                    </Upload>
+                  </Form.Item>
+                </Col>
+                <Col span={0}>
+                  <Form.Item
+                    {...restField}
+                    name={[name, "Category"]}
+                    fieldKey={[fieldKey, "Category"]}
+                    initialValue={loaiTaiLieu}
+                    style={{ marginBottom: 4 }}
+                  >
+                    <Input type="hidden" />
+                  </Form.Item>
+                </Col>
+              </Row>
           ))}
           </>
         )}
@@ -813,86 +791,76 @@ function NopHoSo({ token, userInfo }) {
         {(fields, { add, remove }) => (
           <>
             {fields.map(({ key, name, fieldKey, ...restField }) => (
-              <TaiLieuDynamicItem 
-              key={key} 
-              name={name} 
-              fieldKey={fieldKey} 
-              restField={restField} 
-              IsRequired={true} 
-              loaiTaiLieu={loaiTaiLieu} 
-              propsUploadTaiLieu={propsUploadTaiLieu}
-              autoCompleteData={autoCompleteData}
-              />
-              // <Row key={key} align="top">
-              //   <Col span={1} style={{ textAlign: "center" }}>
-              //     <Tooltip placement="top" title="Xóa">
-              //       <Typography.Text type="danger">
-              //         <MinusCircleOutlined
-              //           onClick={() => remove(name)}
-              //           style={{ marginTop: 8 }}
-              //         />
-              //       </Typography.Text>
-              //     </Tooltip>
-              //   </Col>
-              //   <Col span={8} style={{ paddingRight: 4 }}>
-              //     <Form.Item
-              //       {...restField}
-              //       name={[name, "DocNameVN"]}
-              //       fieldKey={[fieldKey, "DocNameVN"]}
-              //       rules={[{ required: true, message: "Thông tin bắt buộc" }]}
-              //       hasFeedback
-              //       style={{ marginBottom: 4 }}
-              //     >
-              //       <AutoComplete
-              //         options={autoCompleteData}
-              //         filterOption={(inputValue, option) =>
-              //           option.value.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1
-              //         }
-              //       >
-              //         <Input placeholder="Tên tài liệu" />
-              //       </AutoComplete>
-              //     </Form.Item>
-              //   </Col>
-              //   <Col span={8} style={{ paddingRight: 4 }}>
-              //     <Form.Item
-              //       {...restField}
-              //       name={[name, "VersionAndDate"]}
-              //       fieldKey={[fieldKey, "VersionAndDate"]}
-              //       rules={[{ required: true, message: "Thông tin bắt buộc" }]}
-              //       hasFeedback
-              //       style={{ marginBottom: 4 }}
-              //     >
-              //       <Input placeholder="Phiên bản/ngày" />
-              //     </Form.Item>
-              //   </Col>
-              //   <Col span={7}>
-              //     <Form.Item
-              //       {...restField}
-              //       name={[name, "FileData"]}
-              //       fieldKey={[fieldKey, "FileData"]}
-              //       rules={[{ required: true, message: "Hãy đính kèm file" }]}
-              //       hasFeedback
-              //       style={{ marginBottom: 4 }}
-              //       valuePropName="fileList"
-              //       getValueFromEvent={normFile}
-              //     >
-              //       <Upload {...propsUploadTaiLieu} accept=".pdf" maxCount={1} className="upload-trinh-nop">
-              //         <Button icon={<UploadOutlined />}>Tải lên</Button>
-              //       </Upload>
-              //     </Form.Item>
-              //   </Col>
-              //   <Col span={0}>
-              //     <Form.Item
-              //       {...restField}
-              //       name={[name, "Category"]}
-              //       fieldKey={[fieldKey, "Category"]}
-              //       initialValue={loaiTaiLieu}
-              //       style={{ marginBottom: 4 }}
-              //     >
-              //       <Input type="hidden" />
-              //     </Form.Item>
-              //   </Col>
-              // </Row>
+              <Row key={key} align="top">
+                <Col span={1} style={{ textAlign: "center" }}>
+                  <Tooltip placement="top" title="Xóa">
+                    <Typography.Text type="danger">
+                      <MinusCircleOutlined
+                        onClick={() => remove(name)}
+                        style={{ marginTop: 8 }}
+                      />
+                    </Typography.Text>
+                  </Tooltip>
+                </Col>
+                <Col span={8} style={{ paddingRight: 4 }}>
+                  <Form.Item
+                    {...restField}
+                    name={[name, "DocNameVN"]}
+                    fieldKey={[fieldKey, "DocNameVN"]}
+                    rules={[{ required: true, message: "Thông tin bắt buộc" }]}
+                    hasFeedback
+                    style={{ marginBottom: 4 }}
+                  >
+                    <AutoComplete
+                      options={autoCompleteData}
+                      filterOption={(inputValue, option) =>
+                        option.value.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1
+                      }
+                    >
+                      <Input placeholder="Tên tài liệu" />
+                    </AutoComplete>
+                  </Form.Item>
+                </Col>
+                <Col span={8} style={{ paddingRight: 4 }}>
+                  <Form.Item
+                    {...restField}
+                    name={[name, "VersionAndDate"]}
+                    fieldKey={[fieldKey, "VersionAndDate"]}
+                    rules={[{ required: true, message: "Thông tin bắt buộc" }]}
+                    hasFeedback
+                    style={{ marginBottom: 4 }}
+                  >
+                    <Input placeholder="Phiên bản/ngày" />
+                  </Form.Item>
+                </Col>
+                <Col span={7}>
+                  <Form.Item
+                    {...restField}
+                    name={[name, "FileData"]}
+                    fieldKey={[fieldKey, "FileData"]}
+                    rules={[{ required: true, message: "Hãy đính kèm file" }]}
+                    hasFeedback
+                    style={{ marginBottom: 4 }}
+                    valuePropName="fileList"
+                    getValueFromEvent={normFile}
+                  >
+                    <Upload {...propsUploadTaiLieu} accept=".pdf" maxCount={1} className="upload-trinh-nop">
+                      <Button icon={<UploadOutlined />}>Tải lên</Button>
+                    </Upload>
+                  </Form.Item>
+                </Col>
+                <Col span={0}>
+                  <Form.Item
+                    {...restField}
+                    name={[name, "Category"]}
+                    fieldKey={[fieldKey, "Category"]}
+                    initialValue={loaiTaiLieu}
+                    style={{ marginBottom: 4 }}
+                  >
+                    <Input type="hidden" />
+                  </Form.Item>
+                </Col>
+              </Row>
             ))}
             <Form.Item style={{ marginTop: 4, marginBottom: 4 }}>
               <Button
@@ -1103,7 +1071,6 @@ function NopHoSo({ token, userInfo }) {
                   >
                     <Option value="Nộp ban đầu">Nộp ban đầu</Option>
                     <Option value="Nộp bổ sung">Nộp bổ sung</Option>
-                    <Option value="Nghiệm thu">Nghiệm thu</Option>
                   </Select>
                 </Form.Item>
               </Col>
@@ -1152,7 +1119,7 @@ function NopHoSo({ token, userInfo }) {
                 style={{ width: "100%" }}
               />
             </Form.Item>
-            <Form.Item name="NgayHdddChapThuan" label={<>Ngày được hội đồng chấp thuận lần đầu <Text type="secondary" style={{ fontWeight: "500", fontSize: 12, marginLeft: 2 }}>(Với hồ sơ nộp bổ sung)</Text></>} >
+            <Form.Item name="NgayHdddChapThuan" label={<>Ngày được hội đồng chấp thuận <Text type="secondary" style={{ fontWeight: "500", fontSize: 12, marginLeft: 2 }}>(Với hồ sơ nộp bổ sung)</Text></>} >
               <DatePicker
                 placeholder={"Chọn thời gian"}
                 format="DD-MM-YYYY"
@@ -1176,7 +1143,7 @@ function NopHoSo({ token, userInfo }) {
               <Col span={8}>
                 <Form.Item name="HoaDonLePhi" label=" " valuePropName="file" >
                   <Upload {...propsUploadLePhi}>
-                    <Button icon={<UploadOutlined />}>Hóa đơn nộp lệ phí/Ủy nhiệm chi</Button>
+                    <Button icon={<UploadOutlined />}>Hóa đơn nộp lệ phí</Button>
                   </Upload>
                 </Form.Item>
               </Col>
@@ -1191,7 +1158,7 @@ function NopHoSo({ token, userInfo }) {
           </Col>
           <Col span={24}>
             <Form.Item name="TaiLieuTrinhNop" autoComplete="off">
-              <TaiLieuTable phanLoaiDeTai={loaiDeTai} phanLoaiHoSo={loaiHoSo} />
+              <TaiLieuTable phanLoaiDeTai={loaiDeTai}/>
             </Form.Item>
             <ModalGoiY />
           </Col>

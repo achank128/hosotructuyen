@@ -14,7 +14,7 @@ export const listGoiYHoSo = [
       { GoiYId: 201, DocNameVN: "Đề cương nghiên cứu lâm sàng", DocNameEN: "", VersionAndDate: "Phiên bản 1", IsRequired: true },
       { GoiYId: 202, DocNameVN: "Thuyết minh đề cương nghiên cứu thử nghiệm lâm sàng", DocNameEN: "", VersionAndDate: "Phiên bản 1", IsRequired: true },
       { GoiYId: 203, DocNameVN: "Hồ sơ sản phẩm nghiên cứu", DocNameEN: "", VersionAndDate: "Phiên bản 1", IsRequired: true },
-      // { GoiYId: 204, DocNameVN: "Phiếu tình nguyện tham gia nghiên cứu", DocNameEN: "", VersionAndDate: "Phiên bản 1", IsRequired: true },
+      { GoiYId: 204, DocNameVN: "Phiếu tình nguyện tham gia nghiên cứu", DocNameEN: "", VersionAndDate: "Phiên bản 1", IsRequired: true },
       { GoiYId: 205, DocNameVN: "Phiếu thông tin và đồng thuận tham gia nghiên cứu", DocNameEN: "", VersionAndDate: "Phiên bản 1", IsRequired: true },
       { GoiYId: 206, DocNameVN: "Cam kết của Nghiên cứu viên chính", DocNameEN: "", VersionAndDate: "Phiên bản 1", IsRequired: true },
     ],

@@ -1071,6 +1071,7 @@ function NopHoSo({ token, userInfo }) {
                   >
                     <Option value="Nộp ban đầu">Nộp ban đầu</Option>
                     <Option value="Nộp bổ sung">Nộp bổ sung</Option>
+                    <Option value="Nghiệm thu">Nghiệm thu</Option>
                   </Select>
                 </Form.Item>
               </Col>
@@ -1119,7 +1120,7 @@ function NopHoSo({ token, userInfo }) {
                 style={{ width: "100%" }}
               />
             </Form.Item>
-            <Form.Item name="NgayHdddChapThuan" label={<>Ngày được hội đồng chấp thuận <Text type="secondary" style={{ fontWeight: "500", fontSize: 12, marginLeft: 2 }}>(Với hồ sơ nộp bổ sung)</Text></>} >
+            <Form.Item name="NgayHdddChapThuan" label={<>Ngày được hội đồng chấp thuận lần đầu <Text type="secondary" style={{ fontWeight: "500", fontSize: 12, marginLeft: 2 }}>(Với hồ sơ nộp bổ sung)</Text></>} >
               <DatePicker
                 placeholder={"Chọn thời gian"}
                 format="DD-MM-YYYY"
@@ -1143,7 +1144,7 @@ function NopHoSo({ token, userInfo }) {
               <Col span={8}>
                 <Form.Item name="HoaDonLePhi" label=" " valuePropName="file" >
                   <Upload {...propsUploadLePhi}>
-                    <Button icon={<UploadOutlined />}>Hóa đơn nộp lệ phí</Button>
+                    <Button icon={<UploadOutlined />}>Hóa đơn nộp lệ phí/Ủy nhiệm chi</Button>
                   </Upload>
                 </Form.Item>
               </Col>

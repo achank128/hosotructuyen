@@ -42,6 +42,8 @@ import { listGoiYHoSo } from "../../data/goiyhoso";
 import moment from "moment";
 import Login from "../Login";
 import { ButtonGoiYLePhi } from "../../utils/components";
+import TaiLieuStaticItem from "./components/TaiLieuStaticItem";
+import TaiLieuDynamicItem from "./components/TaiLieuDynamicItem";
 
 const { Title, Text, Paragraph } = Typography;
 const { Option } = Select;
@@ -242,7 +244,7 @@ function NopHoSoBoSung({ token, userInfo }) {
         }).then(() => {
           // Flat các array thành 1 array chung
           filesArray = _allFiles.flat().filter((x) => {
-            return x !== undefined && x !== null;
+            return x !== undefined && x !== null && x.IsChecked;
           });
           console.debug(
             "Dữ liệu file trình nộp (flat)",
@@ -621,66 +623,15 @@ function NopHoSoBoSung({ token, userInfo }) {
         {(fields, { add, remove }) => (
           <>
             {fields.map(({ key, name, fieldKey, ...restField }) => (
-              <Row key={key} align="top">
-                <Col span={1} style={{ textAlign: "center" }}>
-                  <Tooltip placement="top" title="Tài liệu bắt buộc">
-                    <Typography.Text type="secondary">
-                      <StarFilled style={{ verticalAlign: "bottom", verticalAlign: "-webkit-baseline-middle" }} />
-                    </Typography.Text>
-                  </Tooltip>
-                </Col>
-                <Col span={8} style={{ paddingRight: 4 }}>
-                  <Form.Item
-                    {...restField}
-                    name={[name, "DocNameVN"]}
-                    fieldKey={[fieldKey, "DocNameVN"]}
-                    rules={[{ required: true, message: "Thông tin bắt buộc" }]}
-                    hasFeedback
-                    style={{ marginBottom: 4 }}
-                  >
-                    <Input placeholder="Tên tài liệu" />
-                  </Form.Item>
-                </Col>
-                <Col span={8} style={{ paddingRight: 4 }}>
-                  <Form.Item
-                    {...restField}
-                    name={[name, "VersionAndDate"]}
-                    fieldKey={[fieldKey, "VersionAndDate"]}
-                    rules={[{ required: true, message: "Thông tin bắt buộc" }]}
-                    hasFeedback
-                    style={{ marginBottom: 4 }}
-                  >
-                    <Input placeholder="Phiên bản/ngày" />
-                  </Form.Item>
-                </Col>
-                <Col span={7}>
-                  <Form.Item
-                    {...restField}
-                    name={[name, "FileData"]}
-                    fieldKey={[fieldKey, "FileData"]}
-                    rules={[{ required: true, message: "Hãy đính kèm file" }]}
-                    hasFeedback
-                    style={{ marginBottom: 4 }}
-                    valuePropName="fileList"
-                    getValueFromEvent={normFile}
-                  >
-                    <Upload {...propsUploadTaiLieu} accept=".pdf" maxCount={1} className="upload-trinh-nop">
-                      <Button icon={<UploadOutlined />}>Tải lên</Button>
-                    </Upload>
-                  </Form.Item>
-                </Col>
-                <Col span={0}>
-                  <Form.Item
-                    {...restField}
-                    name={[name, "Category"]}
-                    fieldKey={[fieldKey, "Category"]}
-                    initialValue={loaiTaiLieu}
-                    style={{ marginBottom: 4 }}
-                  >
-                    <Input type="hidden" />
-                  </Form.Item>
-                </Col>
-              </Row>
+              <TaiLieuStaticItem 
+              key={key} 
+              name={name} 
+              fieldKey={fieldKey} 
+              restField={restField} 
+              IsRequired={false} 
+              loaiTaiLieu={loaiTaiLieu} 
+              propsUploadTaiLieu={propsUploadTaiLieu}
+              />
             ))}
           </>
         )}
@@ -712,76 +663,16 @@ function NopHoSoBoSung({ token, userInfo }) {
         {(fields, { add, remove }) => (
           <>
             {fields.map(({ key, name, fieldKey, ...restField }) => (
-              <Row key={key} align="top">
-                <Col span={1} style={{ textAlign: "center" }}>
-                  <Tooltip placement="top" title="Xóa">
-                    <Typography.Text type="danger">
-                      <MinusCircleOutlined
-                        onClick={() => remove(name)}
-                        style={{ marginTop: 8 }}
-                      />
-                    </Typography.Text>
-                  </Tooltip>
-                </Col>
-                <Col span={8} style={{ paddingRight: 4 }}>
-                  <Form.Item
-                    {...restField}
-                    name={[name, "DocNameVN"]}
-                    fieldKey={[fieldKey, "DocNameVN"]}
-                    rules={[{ required: true, message: "Thông tin bắt buộc" }]}
-                    hasFeedback
-                    style={{ marginBottom: 4 }}
-                  >
-                    <AutoComplete
-                      options={autoCompleteData}
-                      filterOption={(inputValue, option) =>
-                        option.value.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1
-                      }
-                    >
-                      <Input placeholder="Tên tài liệu" />
-                    </AutoComplete>
-                  </Form.Item>
-                </Col>
-                <Col span={8} style={{ paddingRight: 4 }}>
-                  <Form.Item
-                    {...restField}
-                    name={[name, "VersionAndDate"]}
-                    fieldKey={[fieldKey, "VersionAndDate"]}
-                    rules={[{ required: true, message: "Thông tin bắt buộc" }]}
-                    hasFeedback
-                    style={{ marginBottom: 4 }}
-                  >
-                    <Input placeholder="Phiên bản/ngày" />
-                  </Form.Item>
-                </Col>
-                <Col span={7}>
-                  <Form.Item
-                    {...restField}
-                    name={[name, "FileData"]}
-                    fieldKey={[fieldKey, "FileData"]}
-                    rules={[{ required: true, message: "Hãy đính kèm file" }]}
-                    hasFeedback
-                    style={{ marginBottom: 4 }}
-                    valuePropName="fileList"
-                    getValueFromEvent={normFile}
-                  >
-                    <Upload {...propsUploadTaiLieu} accept=".pdf" maxCount={1} className="upload-trinh-nop">
-                      <Button icon={<UploadOutlined />}>Tải lên</Button>
-                    </Upload>
-                  </Form.Item>
-                </Col>
-                <Col span={0}>
-                  <Form.Item
-                    {...restField}
-                    name={[name, "Category"]}
-                    fieldKey={[fieldKey, "Category"]}
-                    initialValue={loaiTaiLieu}
-                    style={{ marginBottom: 4 }}
-                  >
-                    <Input type="hidden" />
-                  </Form.Item>
-                </Col>
-              </Row>
+              <TaiLieuDynamicItem 
+              key={key} 
+              name={name} 
+              fieldKey={fieldKey} 
+              restField={restField} 
+              IsRequired={true} 
+              loaiTaiLieu={loaiTaiLieu} 
+              propsUploadTaiLieu={propsUploadTaiLieu}
+              autoCompleteData={autoCompleteData}
+              />
             ))}
             <Form.Item style={{ marginTop: 4, marginBottom: 4 }}>
               <Button

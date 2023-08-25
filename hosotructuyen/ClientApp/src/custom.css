@@ -1,0 +1,88 @@
+/* Custom css */
+.header {
+    position: "fixed";
+    z-index: 1;
+    width: "100%";
+    background-color: #fff;
+}
+
+.menu {
+    float: right;
+}
+
+#root {
+    min-height: 100vh;
+}
+
+.ant-layout {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.site-layout {
+    padding: 0 50px;
+    margin-top: 20px;
+}
+
+.ant-layout-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.site-layout .site-layout-background {
+    background: #fff;
+    padding: 24px;
+    flex: auto;
+}
+
+.ho-so-form .ant-form-item,
+.cuoc-hop-form .ant-form-item {
+}
+
+.ho-so-form .ant-form-item-label,
+.cuoc-hop-form .ant-form-item-label {
+    padding-bottom: 0;
+    font-weight: 700;
+}
+
+.upload-trinh-nop {
+    display: flex;
+    flex-direction: row;
+}
+    .upload-trinh-nop .ant-upload-list {
+        width: calc(100% - 115px);
+    }
+        .upload-trinh-nop .ant-upload-list .ant-upload-list-item {
+            margin-top: 5px;
+        }
+
+.tai-lieu-view-table .ant-table-expanded-row .ant-table-cell {
+    padding: 0 !important
+}
+
+    .tai-lieu-view-table .ant-table-expanded-row .ant-table-cell .ant-list-item:hover {
+        background-color: #eee;
+    }
+
+@media (max-width: 800px) {
+    .drawer-responsive.ant-drawer-open .ant-drawer-content-wrapper {
+        width: calc(100vw - 5px) !important;
+    }
+
+    .drawer-responsive.ant-drawer-open .ant-drawer-header {
+        padding: 8px 12px;
+        flex-direction: column;
+    }
+
+        .drawer-responsive.ant-drawer-open .ant-drawer-header .ant-drawer-header-title {
+            margin-bottom: 5px;
+        }
+
+    .notification-menu {
+        padding: 0 10px 10px;
+        border-radius: 5px;
+        width: calc(100vw - 10px);
+        margin: 0 5px;
+    }
+}

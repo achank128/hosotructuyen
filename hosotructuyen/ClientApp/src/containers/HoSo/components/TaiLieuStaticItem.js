@@ -10,20 +10,35 @@ const normFile = (e) => {
   return e && e.fileList;
 };
 
-function TaiLieuItem({ name, fieldKey, restField, IsRequired, loaiTaiLieu, propsUploadTaiLieu }) {
-  const [isRequired, setIsRequired] = useState(IsRequired);
+function TaiLieuStaticItem({
+  name,
+  fieldKey,
+  restField,
+  IsRequired,
+  loaiTaiLieu,
+  propsUploadTaiLieu,
+}) {
+  const [isChecked, setIsChecked] = useState(IsRequired);
 
   return (
     <Row align="top">
       <Col span={1} style={{ textAlign: 'center' }}>
-        <Checkbox checked={isRequired} onChange={(e) => setIsRequired(e.target.checked)}></Checkbox>
+        <Form.Item
+          {...restField}
+          name={[name, 'IsChecked']}
+          fieldKey={[fieldKey, 'IsChecked']}
+          hasFeedback
+          valuePropName="checked"
+        >
+          <Checkbox checked={isChecked} onChange={(e) => setIsChecked(e.target.checked)}></Checkbox>
+        </Form.Item>
       </Col>
       <Col span={8} style={{ paddingRight: 4 }}>
         <Form.Item
           {...restField}
           name={[name, 'DocNameVN']}
           fieldKey={[fieldKey, 'DocNameVN']}
-          rules={[{ required: isRequired, message: 'Thông tin bắt buộc' }]}
+          rules={[{ required: isChecked, message: 'Thông tin bắt buộc' }]}
           hasFeedback
           style={{ marginBottom: 4 }}
         >
@@ -35,7 +50,7 @@ function TaiLieuItem({ name, fieldKey, restField, IsRequired, loaiTaiLieu, props
           {...restField}
           name={[name, 'VersionAndDate']}
           fieldKey={[fieldKey, 'VersionAndDate']}
-          rules={[{ required: isRequired, message: 'Thông tin bắt buộc' }]}
+          rules={[{ required: isChecked, message: 'Thông tin bắt buộc' }]}
           hasFeedback
           style={{ marginBottom: 4 }}
         >
@@ -43,12 +58,12 @@ function TaiLieuItem({ name, fieldKey, restField, IsRequired, loaiTaiLieu, props
         </Form.Item>
       </Col>
       <Col span={7}>
-        {isRequired && (
+        {isChecked && (
           <Form.Item
             {...restField}
             name={[name, 'FileData']}
             fieldKey={[fieldKey, 'FileData']}
-            rules={[{ required: isRequired, message: 'Hãy đính kèm file' }]}
+            rules={[{ required: isChecked, message: 'Hãy đính kèm file' }]}
             hasFeedback
             style={{ marginBottom: 4 }}
             valuePropName="fileList"
@@ -75,4 +90,4 @@ function TaiLieuItem({ name, fieldKey, restField, IsRequired, loaiTaiLieu, props
   );
 }
 
-export default TaiLieuItem;
+export default TaiLieuStaticItem;

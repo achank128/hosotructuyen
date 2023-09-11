@@ -397,13 +397,23 @@ function HoSo({ token, userInfo }) {
   const hoSoChildrenFooter = (hoSoGoc) => {
     if (userInfo.UserId === hoSoGoc.UserId) {
       return (
-        <Button
-          type="primary"
-          icon={<PlusOutlined />}
-          onClick={() => history.push("/nop-ho-so-bo-sung/" + hoSoGoc.HoSoId)}
-        >
-          Nộp bổ sung
-        </Button>
+        <Space>
+          <Button
+            type="success"
+            icon={<PlusOutlined />}
+            className="mr-2"
+            onClick={() => history.push("/nop-ho-so-bo-sung/" + hoSoGoc.HoSoId)}
+            >
+            Nộp bổ sung
+          </Button>
+          <Button
+            type="warning"
+            icon={<PlusOutlined />}
+            onClick={() => history.push("/nop-ho-so-nghiem-thu/" + hoSoGoc.HoSoId)}
+          >
+            Nộp Nghiệm thu
+          </Button>
+        </Space>
       );
     } else {
       return false;

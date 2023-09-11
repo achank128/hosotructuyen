@@ -168,7 +168,7 @@ namespace hosotructuyen.Controllers
                 var fdHoSo = Request.Form["hoSo"];
                 HoSo hoSo = JsonConvert.DeserializeObject<HoSo>(fdHoSo) ?? new HoSo();
                 string sqlDataSource = _configuration.GetConnectionString("HoSoNCLSDataContext");
-                if (!string.IsNullOrEmpty(hoSo.ParentId))
+                if (!string.IsNullOrEmpty(hoSo.ParentId) && hoSo.LoaiHoSo == "Nộp bổ sung")
                 {
                     // Check trùng lần bổ sung
                     var lanBoSung = hoSo.LanBoSung;

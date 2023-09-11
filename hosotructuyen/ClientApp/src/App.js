@@ -36,6 +36,7 @@ import HoSo from "./containers/HoSo";
 import XemHoSo from "./containers/HoSo/detail";
 import NopHoSo from "./containers/HoSo/create";
 import NopHoSoBoSung from "./containers/HoSo/createBoSung";
+import NopHoSoNghiemThu from "./containers/HoSo/createNghiemThu";
 import HuongDan from "./containers/HuongDan";
 import TaiLieu from "./containers/TaiLieu";
 import QuanLy from "./containers/QuanLy";
@@ -311,6 +312,7 @@ function App({ token, userInfo, onSetToken, onSetUserInfo }) {
               <Route exact path="/ho-so/:id" component={XemHoSo} />
               <Route exact path="/nop-ho-so" component={NopHoSo} />
               <Route exact path="/nop-ho-so-bo-sung/:id" component={NopHoSoBoSung} />
+              <Route exact path="/nop-ho-so-nghiem-thu/:id" component={NopHoSoNghiemThu} />
               <Route exact path="/huong-dan" component={HuongDan} />
               <Route exact path="/tai-lieu" component={TaiLieu} />
               <Route exact path="/quan-ly" component={QuanLy} />

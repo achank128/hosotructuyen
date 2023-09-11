@@ -34,8 +34,8 @@ import {
   UploadOutlined,
 } from '@ant-design/icons';
 import Button from 'antd-button-color';
-import { notify, listLoaiDinhKemBoSung } from '../../utils';
-import { listGoiYHoSoBoSung } from '../../data/goiyhoso';
+import { notify, listLoaiDinhKemNghiemThu } from '../../utils';
+import { listGoiYHoSoNghiemThu } from '../../data/goiyhoso';
 import moment from 'moment';
 import Login from '../Login';
 import { ButtonGoiYLePhi } from '../../utils/components';
@@ -466,7 +466,7 @@ function NopHoSoBoSung({ token, userInfo }) {
       NghienCuuVien: hoSoGoc.NghienCuuVien,
       CoQuanThucHien: hoSoGoc.CoQuanThucHien,
       CapQuanLy: hoSoGoc.CapQuanLy,
-      LoaiHoSo: 'Nộp bổ sung',
+      LoaiHoSo: 'Nộp nghiệm thu',
       //LanBoSung: "LanBoSung " + idCreate,
       LoaiDeTai: hoSoGoc.LoaiDeTai,
       //ThoiGianThucHien: hoSoGoc.ThoiGianThucHien,
@@ -564,7 +564,7 @@ function NopHoSoBoSung({ token, userInfo }) {
   };
   function TaiLieuTable({ phanLoaiDeTai }) {
     let rowIndex = 0;
-    let tableData = listLoaiDinhKemBoSung
+    let tableData = listLoaiDinhKemNghiemThu
       .filter((ldk) => ldk.phanLoaiDeTai === phanLoaiDeTai)
       .map((ldk) => {
         rowIndex++;
@@ -651,7 +651,7 @@ function NopHoSoBoSung({ token, userInfo }) {
         }
       },
     };
-    const autoCompleteData = listGoiYHoSoBoSung
+    const autoCompleteData = listGoiYHoSoNghiemThu
       .find((gy) => gy.category === loaiTaiLieu)
       .goiY.filter((g) => g.IsRequired === true);
     return (
@@ -697,7 +697,7 @@ function NopHoSoBoSung({ token, userInfo }) {
         }
       },
     };
-    const autoCompleteData = listGoiYHoSoBoSung
+    const autoCompleteData = listGoiYHoSoNghiemThu
       .find((gy) => gy.category === loaiTaiLieu)
       .goiY.map((gy) => ({ value: gy.DocNameVN }));
     return (
@@ -733,7 +733,7 @@ function NopHoSoBoSung({ token, userInfo }) {
   function handleModalGoiY(data, visible) {
     if (data !== null) {
       setModalGoiYTitle(data.categoryTitle);
-      let goiYList = listGoiYHoSoBoSung.find((x) => x.category === data.categoryCode).goiY;
+      let goiYList = listGoiYHoSoNghiemThu.find((x) => x.category === data.categoryCode).goiY;
       let tableGoiYColumns = [
         {
           title: 'Tài liệu',
@@ -851,7 +851,7 @@ function NopHoSoBoSung({ token, userInfo }) {
   return (
     <Col>
       <Row style={{ marginBottom: 20 }}>
-        <Title level={3}>Nộp hồ sơ bổ sung</Title>
+        <Title level={3}>Nộp hồ sơ nghiệm thu</Title>
         {userInfo.UserName === 'kieuanh' && (
           <span style={{ marginLeft: 10 }}>
             <Tag color="#cd201f">{idCreate}</Tag>
@@ -874,9 +874,9 @@ function NopHoSoBoSung({ token, userInfo }) {
         name="HoSoForm"
         form={hoSoForm}
         layout="vertical"
-        // initialValues={{
-        //   LoaiDeTai: 'Thử nghiệm lâm sàng',
-        // }}
+        initialValues={{
+          LoaiDeTai: 'Thử nghiệm lâm sàng',
+        }}
       >
         <Row gutter={[40, 40]}>
           <Col span={12}>
@@ -939,16 +939,16 @@ function NopHoSoBoSung({ token, userInfo }) {
                 </Form.Item>
               </Col>
               <Col span={1}></Col>
-              <Col span={11}>
+              {/* <Col span={11}>
                 <Form.Item
                   name="LanBoSung"
                   label="Lần bổ sung"
                   rules={[{ required: true, message: 'Thông tin bắt buộc' }]}
                   hasFeedback
                 >
-                  <InputNumber />
+                  <InputNumber/>
                 </Form.Item>
-              </Col>
+              </Col> */}
             </Row>
             <Form.Item name="LoaiDeTai" label="Phân loại đề tài">
               <Input disabled />
